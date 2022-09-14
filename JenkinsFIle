@@ -13,12 +13,18 @@ pipeline {
             steps {
                 withAWS(credentials: 'aws_creds') {
                     sh 'terraform init'
-                    sh 'terraform plan'
                 }
             }
         }
     }
-}
+}        
+        stage('terraform plan') {
+            steps {
+                withAWS(credentials: 'aws_creds') {
+                    sh 'terraform plan'
+                }
+            }
+        }
         stage('terraform apply') {
             steps {
                 withAWS(credentials: 'aws_creds') {
