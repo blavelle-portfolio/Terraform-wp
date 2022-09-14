@@ -8,7 +8,7 @@ resource "null_resource" "main" {
   }
 
   provisioner "local-exec" {
-    command = "chmod 400 private.key"
+    command = "chmod 600 private.key"
   }
 }
 
