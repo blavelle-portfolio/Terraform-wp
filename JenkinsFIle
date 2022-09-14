@@ -1,0 +1,29 @@
+pipeline {
+    agent any
+    tools {
+       terraform 'Terraform'
+    }
+    stages {
+        stage('Git checkout') {
+           steps{
+                git branch: 'main', url: 'https://github.com/blavelle-portfolio/Terraform-wp'
+            }
+        }
+        stage('terraform init') {
+            steps {
+                withAWS(credentials: 'aws_creds') {
+                    sh 'terraform init'
+                    sh 'terraform plan'
+                }
+            }
+        }
+    }
+}
+        stage('terraform apply') {
+            steps {
+                withAWS(credentials: 'aws_creds') {
+                    sh 'terraform apply -auto-approve'
+                }
+            }
+        }
+        
