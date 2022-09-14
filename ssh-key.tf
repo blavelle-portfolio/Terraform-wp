@@ -4,7 +4,7 @@ resource "tls_private_key" "main" {
 
 resource "null_resource" "main" {
   provisioner "local-exec" {
-    command = "sudo echo \"${tls_private_key.main.private_key_pem}\" > private.key"
+    command = "sudo echo \"${tls_private_key.main.private_key_pem}\" >> $PWD/private.key"
   }
 
   provisioner "local-exec" {
