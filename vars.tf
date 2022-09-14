@@ -6,7 +6,7 @@ variable aws_reg {
 
 variable stack {
   description = "this is name for tags"
-  default     = "terraform"
+  default     = "wordpress"
 }
 
 variable username {
