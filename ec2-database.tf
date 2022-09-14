@@ -1,9 +1,3 @@
-
-resource "aws_key_pair" "keypair1" {
-  key_name   = "${var.stack}-keypairs"
-  public_key = file(var.ssh_key)
-}
-
 data "template_file" "phpconfig" {
   template = file("files/conf.wp-config.php")
 
@@ -12,7 +6,7 @@ data "template_file" "phpconfig" {
     db_host = aws_db_instance.mysql.address
     db_user = var.username
     db_pass = var.password
-    db_name = var.dbname
+    db_name = var.db_name
   }
 }
 
@@ -22,7 +16,7 @@ resource "aws_db_instance" "mysql" {
   engine                 = "mysql"
   engine_version         = "5.7"
   instance_class         = "db.t2.micro"
-  name                   = var.dbname
+  name                   = var.db_name
   username               = var.username
   password               = var.password
   parameter_group_name   = "default.mysql5.7"
@@ -39,7 +33,7 @@ resource "aws_instance" "ec2" {
     aws_db_instance.mysql,
   ]
 
-  key_name                    = aws_key_pair.keypair1.key_name
+  key_name                    = "wordpress-deploy-${random_pet.env.id}"
   vpc_security_group_ids      = [aws_security_group.web.id]
   subnet_id                   = aws_subnet.public1.id
   associate_public_ip_address = true
@@ -58,7 +52,7 @@ resource "aws_instance" "ec2" {
       type        = "ssh"
       user        = "ubuntu"
       host = self.public_ip
-      private_key = file(var.ssh_priv_key)
+      private_key = tls_private_key.main.private_key_pem
     }
   }
 
@@ -72,7 +66,7 @@ resource "aws_instance" "ec2" {
       type        = "ssh"
       user        = "ubuntu"
       host = self.public_ip
-      private_key = file(var.ssh_priv_key)
+      private_key = tls_private_key.main.private_key_pem
     }
   }
 
@@ -84,7 +78,7 @@ resource "aws_instance" "ec2" {
       type        = "ssh"
       user        = "ubuntu"
       host = self.public_ip
-      private_key = file(var.ssh_priv_key)
+      private_key = tls_private_key.main.private_key_pem
     }
   }
 
@@ -97,7 +91,7 @@ resource "aws_instance" "ec2" {
       type        = "ssh"
       user        = "ubuntu"
       host = self.public_ip
-      private_key = file(var.ssh_priv_key)
+      private_key = tls_private_key.main.private_key_pem
     }
   }
 

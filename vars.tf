@@ -1,6 +1,6 @@
 variable aws_reg {
   description = "This is aws region"
-  default     = "eu-west-2"
+  default     = "eu-east-2"
   type        = string
 }
 
@@ -17,18 +17,8 @@ variable password {
   description = "DB password"
 }
 
-variable dbname {
+variable db_name {
   description = "db name"
-}
-
-variable ssh_key {
-  default     = "~/.ssh/id_rsa.pub"
-  description = "Default pub key"
-}
-
-variable ssh_priv_key {
-  default     = "~/.ssh/id_rsa"
-  description = "Default private key"
 }
 
 variable ami {
