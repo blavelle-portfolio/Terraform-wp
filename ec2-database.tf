@@ -27,7 +27,7 @@ resource "aws_db_instance" "mysql" {
 
 resource "aws_instance" "ec2" {
   ami           = var.ami
-  instance_type = "t3.small"
+  instance_type = "t2.micro"
 
   depends_on = [
     aws_db_instance.mysql,
